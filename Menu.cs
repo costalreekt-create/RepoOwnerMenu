@@ -66,27 +66,32 @@ namespace RepoAdminMenu {
             menuPostCallbacks.Remove(mod_name);
         }
 
-        public static void toggleMenu() {
-            if (menus.Count < 1)
-                Init();
-
-
-            if (SemiFunc.MenuLevel()) {
-                RepoAdminMenu.mls.LogInfo("Repo Admin Menu can only be opened while in-game!");
-                return;
-            }
-
-            if (!SemiFunc.IsMasterClientOrSingleplayer()) {
-                RepoAdminMenu.mls.LogInfo("Repo Admin Menu can only be opened in single player or as host in multiplayer!");
-                return;
-            }
-
-            if (currentMenu != null && currentMenu.isActiveAndEnabled) {
-                closePage(currentMenu);
-            } else {
-                RepoAdminMenu.mls.LogInfo("Opening menu");
-                menus.GetValueOrDefault(currentMenuStr, openMainMenu).Invoke();
-            }
+public static void toggleMenu()
+{
+    if (menus.Count < 1)
+    {
+        Init();
+    }
+    if (SemiFunc.MenuLevel())
+    {
+        RepoAdminMenu.mls.LogInfo((object)"Repo Admin Menu can only be opened while in-game!");
+        return;
+    }
+    // REMOVED THIS CHECK:
+    // if (!SemiFunc.IsMasterClientOrSingleplayer())
+    // {
+    //     RepoAdminMenu.mls.LogInfo((object)"Repo Admin Menu can only be opened in single player or as host in multiplayer!");
+    //     return;
+    // }
+    
+    if ((Object)(object)currentMenu != (Object)null && ((Behaviour)currentMenu).isActiveAndEnabled)
+    {
+        closePage(currentMenu);
+        return;
+    }
+    RepoAdminMenu.mls.LogInfo((object)"Opening menu");
+    menus.GetValueOrDefault(currentMenuStr, openMainMenu)();
+}
         }
 
         public static void closePage(REPOPopupPage page) {
